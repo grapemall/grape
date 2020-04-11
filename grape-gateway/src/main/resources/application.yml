@@ -1,0 +1,32 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: grape-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: grape-members
+          uri: lb://grape-members
+          predicates:
+            - Path=/members/**
+          filters:
+            - StripPrefix=1
+        - id: grape-order
+          uri: lb://grape-order
+          predicates:
+            - Path=/order/**
+          filters:
+            - StripPrefix=1
+        - id: grape-wares
+          uri: lb://grape-wares
+          predicates:
+            - Path=/wares/**
+          filters:
+            - StripPrefix=1

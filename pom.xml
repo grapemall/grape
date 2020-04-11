@@ -11,6 +11,7 @@
         <module>grape-wares</module>
         <module>grape-order</module>
         <module>grape-members</module>
+        <module>grape-gateway</module>
     </modules>
     <packaging>pom</packaging>
 
