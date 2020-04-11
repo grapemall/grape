@@ -1,2 +1,10 @@
 server:
-  port: 8082
+  port: 9030
+
+spring:
+  application:
+    name: grape-members
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848

@@ -1,2 +1,9 @@
 server:
-  port: 8081
+  port: 9010
+spring:
+  application:
+    name: grape-wares
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848

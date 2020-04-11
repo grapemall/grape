@@ -1,23 +1,15 @@
 package com.grape.mall.members;
 
-import org.springframework.boot.Banner;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
+@EnableDiscoveryClient
 @SpringBootApplication
-public class GrapeMembersApplication extends SpringBootServletInitializer {
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return configureApplication(builder);
-    }
+public class GrapeMembersApplication {
 
     public static void main(String[] args) {
-        configureApplication(new SpringApplicationBuilder()).run(args);
+        SpringApplication.run(GrapeMembersApplication.class, args);
     }
 
-    private static SpringApplicationBuilder configureApplication(SpringApplicationBuilder builder) {
-        return builder.sources(GrapeMembersApplication.class).bannerMode(Banner.Mode.OFF);
-    }
 }
