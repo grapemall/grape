@@ -14,6 +14,11 @@
     <description>会员模块</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.grape.mall</groupId>
+            <artifactId>grape-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

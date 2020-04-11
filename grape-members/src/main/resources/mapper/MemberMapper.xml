@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grape.mall.members.mapper.MemberMapper">
+  <resultMap id="BaseResultMap" type="com.grape.mall.members.model.Member">
+    <!--@mbg.generated-->
+    <!--@Table mb_member-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="member_name" jdbcType="VARCHAR" property="memberName" />
+    <result column="member_pwd" jdbcType="VARCHAR" property="memberPwd" />
+    <result column="member_sex" jdbcType="BOOLEAN" property="memberSex" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="state" jdbcType="BOOLEAN" property="state" />
+    <result column="allow_buy" jdbcType="BOOLEAN" property="allowBuy" />
+    <result column="member_points" jdbcType="BIGINT" property="memberPoints" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, mobile, member_name, member_pwd, member_sex, avatar, `state`, allow_buy, member_points, 
+    register_time, login_time
+  </sql>
+</mapper>
