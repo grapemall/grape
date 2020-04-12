@@ -1,15 +1,16 @@
 package com.grape.mall.common.exception;
 
+import com.grape.mall.common.dto.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.nio.file.AccessDeniedException;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 
 @Slf4j
@@ -25,8 +26,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity handleException(Throwable e){
         // 打印堆栈信息
         log.error(ThrowableUtil.getStackTrace(e));
-        ErrorModel errorModel = new ErrorModel(BAD_REQUEST.value(),e.getMessage());
-        return buildResponseEntity(errorModel);
+        return ResponseEntity.error(BAD_REQUEST.value(), e.getMessage());
     }
 
     /**
@@ -38,8 +38,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity handleAccessDeniedException(AccessDeniedException e){
         // 打印堆栈信息
         log.error(ThrowableUtil.getStackTrace(e));
-        ErrorModel apiError = new ErrorModel(FORBIDDEN.value(),e.getMessage());
-        return buildResponseEntity(apiError);
+        return ResponseEntity.error(FORBIDDEN.value(), e.getMessage());
     }
 
     /**
@@ -48,11 +47,11 @@ public class GlobalExceptionHandler {
      * @return
      */
 	@ExceptionHandler(value = ErorrRequestException.class)
-	public ResponseEntity<ErrorModel> badRequestException(ErorrRequestException e) {
+	public ResponseEntity badRequestException(ErorrRequestException e) {
         // 打印堆栈信息
         log.error(ThrowableUtil.getStackTrace(e));
         ErrorModel errorModel= new ErrorModel(e.getStatus(),e.getMessage());
-        return buildResponseEntity(errorModel);
+        return ResponseEntity.error(e.getStatus(), e.getMessage());
 	}
 
 
@@ -62,7 +61,7 @@ public class GlobalExceptionHandler {
      * @returns
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorModel> handleMethodArgumentNotValidException(
+    public ResponseEntity handleMethodArgumentNotValidException(
         MethodArgumentNotValidException e){
         // 打印堆栈信息
         log.error(ThrowableUtil.getStackTrace(e));
@@ -70,16 +69,6 @@ public class GlobalExceptionHandler {
 
         StringBuffer msg = new StringBuffer(str[1]+":");
         msg.append(e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
-        ErrorModel errorModel = new ErrorModel(BAD_REQUEST.value(),msg.toString());
-        return buildResponseEntity(errorModel);
-    }
-
-    /**
-     * 统一返回
-     * @param apiError
-     * @return
-     */
-    private ResponseEntity<ErrorModel> buildResponseEntity(ErrorModel apiError) {
-        return new ResponseEntity(apiError, HttpStatus.valueOf(apiError.getStatus()));
+        return ResponseEntity.error(BAD_REQUEST.value(), msg.toString());
     }
 }

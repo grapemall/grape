@@ -1,9 +1,9 @@
 package com.grape.mall.members.service.impl;
 
-import com.grape.mall.members.model.Role;
-import com.grape.mall.members.mapper.RoleMapper;
-import com.grape.mall.members.service.RoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.grape.mall.members.mapper.RoleMapper;
+import com.grape.mall.members.model.Role;
+import com.grape.mall.members.service.RoleService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +16,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
-	
+
+
+
 }

@@ -1,6 +1,8 @@
 package com.grape.mall.members.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import java.io.Serializable;
@@ -52,19 +54,20 @@ public class Role implements Serializable {
 	/**
 	 * 是否删除
 	 */
+	@TableLogic
 	@TableField(value="is_deleted")
 	private Integer isDeleted;
 
 	/**
 	 * 创建时间
 	 */
-	@TableField(value="create_time")
+	@TableField(value="create_time", fill = FieldFill.INSERT)
 	private Date createTime;
 
 	/**
 	 * 更新时间
 	 */
-	@TableField(value="update_time")
+	@TableField(value="update_time", fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
 
 }
