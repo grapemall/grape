@@ -5,8 +5,8 @@ spring:
   datasource:
     druid:
       type: com.alibaba.druid.pool.DruidDataSource
-      driverClassName: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/grape_member?characterEncoding=utf-8&useSSL=false
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/grape_member?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
       username: root
       password: 111111
 
@@ -45,3 +45,14 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+
+mybatis-plus:
+  global-config:
+    banner: false
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.grape.mall.members.model
+  type-aliases-super-type: java.lang.Object
+  type-enums-package: com.grape.mall.members.enums
