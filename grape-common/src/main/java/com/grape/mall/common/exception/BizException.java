@@ -9,15 +9,15 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
  * 统一异常处理
  */
 @Getter
-public class ErorrRequestException extends RuntimeException {
+public class BizException extends RuntimeException {
 
     private Integer status = BAD_REQUEST.value();
 
-    public ErorrRequestException(String msg){
+    public BizException(String msg){
         super(msg);
     }
 
-    public ErorrRequestException(HttpStatus status, String msg){
+    public BizException(HttpStatus status, String msg){
         super(msg);
         this.status = status.value();
     }

@@ -1,16 +1,15 @@
 package com.grape.mall.common.exception;
 
-import com.grape.mall.common.dto.ResponseEntity;
+import com.grape.mall.common.dto.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.nio.file.AccessDeniedException;
-
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 
 @Slf4j
@@ -18,57 +17,57 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 public class GlobalExceptionHandler {
 
     /**
-     * 处理所有不可知的异常
+     * 处理系统错误
      * @param e
      * @return
      */
     @ExceptionHandler(Throwable.class)
-    public ResponseEntity handleException(Throwable e){
-        // 打印堆栈信息
-        log.error(ThrowableUtil.getStackTrace(e));
-        return ResponseEntity.error(BAD_REQUEST.value(), e.getMessage());
+    public ResponseBody handleThrowable(Throwable e){
+        log.error("系统错误", e);
+        return ResponseBody.error(INTERNAL_SERVER_ERROR.value(), e.getMessage());
     }
 
     /**
-     * 处理 接口无权访问异常AccessDeniedException
+     * 处理系统异常
      * @param e
      * @return
      */
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity handleAccessDeniedException(AccessDeniedException e){
-        // 打印堆栈信息
-        log.error(ThrowableUtil.getStackTrace(e));
-        return ResponseEntity.error(FORBIDDEN.value(), e.getMessage());
+    @ExceptionHandler(Exception.class)
+    public ResponseBody handleException(Exception e){
+        log.error("系统异常", e);
+        return ResponseBody.error(INTERNAL_SERVER_ERROR.value(), e.getMessage());
     }
 
     /**
-     * 处理自定义异常
+     * 处理业务异常
      * @param e
      * @return
      */
-	@ExceptionHandler(value = ErorrRequestException.class)
-	public ResponseEntity badRequestException(ErorrRequestException e) {
-        // 打印堆栈信息
-        log.error(ThrowableUtil.getStackTrace(e));
-        ErrorModel errorModel= new ErrorModel(e.getStatus(),e.getMessage());
-        return ResponseEntity.error(e.getStatus(), e.getMessage());
+	@ExceptionHandler(value = BizException.class)
+	public ResponseBody handleBizException(BizException e) {
+        log.error("业务异常", e);
+        return ResponseBody.error(e.getStatus(), e.getMessage());
 	}
 
 
     /**
-     * 处理所有接口数据验证异常
-     * @param e
-     * @returns
+     * 处理接口参数数据验证异常
+     * @param vex
+     * @param bex
+     * @return
      */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity handleMethodArgumentNotValidException(
-        MethodArgumentNotValidException e){
-        // 打印堆栈信息
-        log.error(ThrowableUtil.getStackTrace(e));
-        String[] str = e.getBindingResult().getAllErrors().get(0).getCodes()[1].split("\\.");
-
-        StringBuffer msg = new StringBuffer(str[1]+":");
-        msg.append(e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
-        return ResponseEntity.error(BAD_REQUEST.value(), msg.toString());
+    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
+    public ResponseBody handleArgsNotValidException(MethodArgumentNotValidException vex, BindException bex){
+        log.error("参数校验异常", vex == null ? bex: vex);
+        String message = "";
+        FieldError fieldError = null;
+        if (vex != null) {
+            fieldError = vex.getBindingResult().getFieldError();
+            message =  fieldError.getDefaultMessage();
+        } else {
+            fieldError = bex.getBindingResult().getFieldError();
+            message = fieldError.getDefaultMessage();
+        }
+        return ResponseBody.error(BAD_REQUEST.value(), String.format("%s:%s", fieldError.getField(), message));
     }
 }

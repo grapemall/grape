@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class ResponseEntity<T> implements Serializable {
+public class ResponseBody<T> implements Serializable {
 
     /**
      * 响应码
@@ -22,23 +22,23 @@ public class ResponseEntity<T> implements Serializable {
      */
     private T content;
 
-    public static <E> ResponseEntity<E> success(E content) {
-        ResponseEntity<E> response = new ResponseEntity<>();
+    public static <E> ResponseBody<E> success(E content) {
+        ResponseBody<E> response = new ResponseBody<>();
         response.setCode(200);
         response.setMessage("操作成功");
         response.setContent(content);
         return response;
     }
 
-    public static ResponseEntity error(Integer code, String message) {
-        ResponseEntity response = new ResponseEntity();
+    public static ResponseBody error(Integer code, String message) {
+        ResponseBody response = new ResponseBody();
         response.setCode(code);
         response.setMessage(message);
         return response;
     }
 
-    public static <E> ResponseEntity<E> error(Integer code, String message, E content) {
-        ResponseEntity<E> response = new ResponseEntity<>();
+    public static <E> ResponseBody<E> error(Integer code, String message, E content) {
+        ResponseBody<E> response = new ResponseBody<>();
         response.setCode(code);
         response.setMessage(message);
         response.setContent(content);
