@@ -1,11 +1,10 @@
-package com.grape.mall.members.enums;
+package com.grape.mall.common.enums;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.grape.mall.common.validation.EnumValidator;
 import lombok.Getter;
 
 @Getter
-public enum EnableEnum {
+public enum EnableEnum implements EnumValidator<Integer> {
 
     ENABLED(1, "启用"), DISABLED(0, "未启用");
 
@@ -14,8 +13,6 @@ public enum EnableEnum {
         this.desc = desc;
     }
 
-    @EnumValue
-    @JsonValue
     private Integer code;
 
     private String desc;

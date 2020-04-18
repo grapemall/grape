@@ -22,6 +22,10 @@ public class ResponseBody<T> implements Serializable {
      */
     private T content;
 
+    public static  ResponseBody success() {
+        return success(null);
+    }
+
     public static <E> ResponseBody<E> success(E content) {
         ResponseBody<E> response = new ResponseBody<>();
         response.setCode(200);
