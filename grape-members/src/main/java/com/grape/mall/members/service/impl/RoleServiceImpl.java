@@ -38,7 +38,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         }
         // 检查角色编码是否存在
         validRoleCode(vo.getRoleCode());
-        Role save = convert.toEntity(vo);
+        Role save = convert.toModel(vo);
         save.setIsDeleted(ConfirmEnum.NO.getCode());
         super.save(save);
     }
@@ -74,7 +74,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         if (!StringUtils.equals(role.getRoleCode(), roleVo.getRoleCode())) {
             validRoleCode(roleVo.getRoleCode());
         }
-        Role updateRole = convert.toEntity(roleVo);
+        Role updateRole = convert.toModel(roleVo);
         updateRole.setId(id);
         super.getBaseMapper().updateById(updateRole);
     }
