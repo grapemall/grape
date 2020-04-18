@@ -1,7 +1,6 @@
 package com.grape.mall.members.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.grape.mall.common.dto.RoleDto;
@@ -32,10 +31,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Autowired
     private RoleBeanConvert convert;
 
-    /**
-     * 新增
-     * @param vo
-     */
     @Override
     public void saveRole(RoleVo vo) {
         if (vo == null) {
@@ -44,14 +39,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         // 检查角色编码是否存在
         validRoleCode(vo.getRoleCode());
         Role save = convert.toEntity(vo);
+        save.setIsDeleted(ConfirmEnum.NO.getCode());
         super.save(save);
     }
 
-    /**
-     * 根据编码查询角色
-     * @param roleCode
-     * @return
-     */
     public Role getRoleByCode(String roleCode) {
         Role role = super.lambdaQuery()
                 .ge(Role::getRoleCode, roleCode)
@@ -104,7 +95,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotBlank(queryCriteria.getRoleCode()), Role::getRoleCode, queryCriteria.getRoleCode())
                 .like(StringUtils.isNotBlank(queryCriteria.getRoleName()), Role::getRoleName, queryCriteria.getRoleName())
-                .eq(queryCriteria.getRoleEnabled() != null, Role::getRoleEnabled, queryCriteria.getRoleEnabled());
+                .eq(queryCriteria.getRoleEnabled() != null, Role::getRoleEnabled, queryCriteria.getRoleEnabled())
+                .ge(Role::getIsDeleted, ConfirmEnum.NO.getCode());
 
         Page<Role> rolePage = super.getBaseMapper().selectPage(page, queryWrapper);
 
