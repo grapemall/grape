@@ -27,7 +27,7 @@
     <properties>
     	<springcloud.version>Greenwich.SR5</springcloud.version>
     	<springcloud-alibaba.version>2.1.0.RELEASE</springcloud-alibaba.version>
-        <fastjosn.version>1.2.68</fastjosn.version>
+        <fastjosn.version>1.2.83</fastjosn.version>
         <docker.image.prefix>com.grape</docker.image.prefix>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <druid.version>1.1.17</druid.version>
